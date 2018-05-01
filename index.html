@@ -22,7 +22,9 @@
     .form-row {
       margin-bottom: 0.5em;
     }
-
+    .status {
+      display: none;
+    }
     p {
       text-align: justify;
     }
@@ -148,56 +150,74 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="https://jaldhara.in/v1/create">
+          <form id="signUpForm">
             <div class="form-row">
               <div class="col">
 
                 <label for="userName">Username</label>
-                <input type="text" class="form-control" aria-describedby="usernameHelp" placeholder="Enter User Name">
+                <input id="username" name="username" type="text" class="form-control" aria-describedby="usernameHelp" placeholder="Enter User Name" required>
                 <small id="usernameHelp" class="form-text text-muted">Will be used to log-in to Jaldhara</small>
               </div>
               <div class="col">
                 <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <input id="password" type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
               </div>
             </div>
             <div class="form-row">
               <div class="col">
 
                 <label for="firstName">First Name</label>
-                <input type="text" class="form-control" placeholder="First Name">
+                <input id="firstName" type="text" class="form-control" placeholder="First Name" required>
               </div>
               <div class="col">
                 <label for="lastName">Last Name</label>
-                <input type="text" class="form-control" placeholder="Last Name">
+                <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
               </div>
             </div>
             <div class="form-row">
               <div class="col">
 
                 <label for="phoneNumber">Phone Number</label>
-                <input type="text" class="form-control" placeholder="eg: XXXXXXXXXX">
+                <input id="phoneNumber" type="number" class="form-control" placeholder="eg: XXXXXXXXXX" required>
               </div>
               <div class="col">
                 <label for="emailId">Email ID</label>
-                <input type="email" class="form-control" placeholder="User@example.com">
+                <input id="emailId" type="email" class="form-control" placeholder="User@example.com" required>
               </div>
             </div>
             <div class="form-row">
               <div class="col">
 
+                <!-- <label for="language">Language</label>
+                <input id="language" type="email" class="form-control" placeholder="User@example.com"> -->
+
+
                 <label for="language">Language</label>
-                <input type="email" class="form-control" placeholder="User@example.com">
-              </div>
+                <select id="language" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                  <option selected>Choose...</option>
+                  <option value="English">English</option>
+                  <option value="Hindi">Hindi</option>
+                  <option value="Tamil">Tamil</option>
+                  <option value="Telgu">Telgu</option>
+                </select>
+
+
             </div>
+          </div>
             <!-- <div class="form-group form-check">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div> -->
             <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-            <button type="submit" href = "https://jaldhara.in/" class="btn btn-info btn-block">Sign Up</button>
+            <button type="button" id="submitForm"class="btn btn-info btn-block" style="margin-top: 10px;" >Sign Up</button>
+            <div class="alert alert-success status" style="margin-top: 5px;">
+              <strong>Success!</strong> Sign Up successful, Please Procced to login.
+            </div>
+            <div class="alert alert-danger status" style="margin-top: 10px;">
+              <strong>Failed!</strong> Sign Up failed!
+            </div>
           </form>
-        </div>
+        <!-- </div> -->
         <!-- <div class="modal-footer">
           <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
           <!-- </div> -->
@@ -205,8 +225,56 @@
     </div>
   </section>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+   $('#submitForm').click(function(){
+
+       var data = {
+         "userName": document.getElementById('username').value,
+         "password": document.getElementById('password').value,
+         "firstName": document.getElementById('firstName').value,
+         "lastName": document.getElementById('lastName').value,
+         "phone": document.getElementById('phoneNumber').value,
+         "email": document.getElementById('emailId').value,
+         "language": document.getElementById('language').value,
+         "regOrgId": "0124872605121085443"
+       }
+       console.log(data)
+        if(data['userName'] === "" || data['password'] === "" || data['firstName'] === "" || data['lastName'] === "" || data['phone'] === "" || data['email'] === "" || data['language'] === ""){
+           $('.alert-danger').removeClass('status')
+        } else {
+          console.log("here for no reason")
+           $.ajax({
+             url:'https://www.jaldhara.in/api/user/v1/create',
+             type: "POST",
+             headers: {
+               "Accept": 'application/json',
+               "Content-Type": 'application/json',
+               "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIxODljZWJlMDNkOWY0NWE1ODY0ZjllMTk4ZmFiYWE0YiJ9.ULpg0kz8_LkBv4M1D_PB3YYv6e4WAyQhaXRJ_nOp6gU"
+             },
+             data: {
+               "request": data
+              },
+            success :function(result, status, xhr) {
+             $('.alert-success').removeClass('status')
+           },
+           fail: function (result, status, xhr) {
+             $('.alert-danger').removeClass('status')
+           },
+           error: function(xhr, status, err) {
+             $('.alert-danger').removeClass('status')
+           }
+       })
+    }
+})
+})
+
+
+ </script>
 </body>
 </html>
